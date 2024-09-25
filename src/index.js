@@ -18,6 +18,7 @@ const getPostsOfAFeedUseCase = new GetUsersOfAFeedUseCase(agent)
 const userDidList = await getPostsOfAFeedUseCase.execute({
     feedUri: feedToFindUsers
 })
+console.log('[#] User count:', userDidList.length)
 await addUserToAListUseCase.execute({ 
     listUri,
     userDidList

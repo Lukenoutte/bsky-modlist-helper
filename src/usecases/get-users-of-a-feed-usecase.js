@@ -7,21 +7,10 @@ export default class GetUsersOfAFeedUseCase {
       try {
         const feed = await this.getListOfPosts({ feedUri })
         const listOfDid = this.getAListOfDidUsers ({ feed })
-        console.log('listOfDid', listOfDid)
         return listOfDid
       } catch (error) {
         console.error("[Error on GetPostsOfAFeedUseCase]", error);
       }
-    }
-
-    async getListOfPosts ({ feedUri }) {
-        const { data: { feed } } = await this.agent.app.bsky.feed.getFeed(
-            {
-              feed: feedUri,
-              limit: 100,
-            }
-          );
-        return feed
     }
 
     getAListOfDidUsers ({ feed }) {
@@ -30,6 +19,30 @@ export default class GetUsersOfAFeedUseCase {
             const { author } = post
             return author.did
         })
+    }
+
+    async getListOfPosts({
+      maxAttempts = 5,
+      feedUri,
+    }) {
+      const dataList = [];
+      let attempt = 0;
+      let cursor = undefined;
+    
+      do {
+        const { data: { feed, cursor: newCursor } } = await this.agent.app.bsky.feed.getFeed(
+          {
+            feed: feedUri,
+            limit: 100,
+          }
+        );
+    
+        dataList.push(...feed);
+        cursor = newCursor;
+        attempt++;
+      } while (cursor && attempt < maxAttempts);
+    
+      return dataList;
     }
   }
   
