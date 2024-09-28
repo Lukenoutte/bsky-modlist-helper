@@ -1,3 +1,1 @@
-export const handleUserList = [
-    "lucascrff3.bsky.social",
-  ];
+export const handleUserList = [];
