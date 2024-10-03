@@ -1,3 +1,3 @@
-import addUsersUsingHandleList from "./strategies/add-using-handle-list.js"
+import addUsersUsingHModList from "./strategies/add-using-mod-list.js"
 
-addUsersUsingHandleList()
+addUsersUsingHModList()

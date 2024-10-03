@@ -22,7 +22,7 @@ export default class GetUsersOfAFeedUseCase {
     }
 
     async getListOfPosts({
-      maxAttempts = 2,
+      maxAttempts = 1,
       feedUri,
     }) {
       const dataList = [];
@@ -34,6 +34,7 @@ export default class GetUsersOfAFeedUseCase {
           {
             feed: feedUri,
             limit: 100,
+            cursor
           }
         );
     
